@@ -1,0 +1,15 @@
+[
+  {
+    "name": "Peti",
+    "age": 25,
+    "email": "s@email.hu"
+  },{
+    "name": "Liza",
+    "age": 22,
+    "email": "liza@gemail.hu"
+  },{
+    "name": "Teri",
+    "age": 32,
+    "email": "terike@temail.com"
+  }
+]
