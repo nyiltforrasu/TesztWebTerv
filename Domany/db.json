@@ -1,13 +1,19 @@
 [
   {
+    "id": 1,
+    "date": "2022-12-4",
     "name": "Peti",
     "age": 25,
     "email": "s@email.hu"
   },{
+    "id": 2,
+    "date": "2022-11-14",
     "name": "Liza",
     "age": 22,
     "email": "liza@gemail.hu"
   },{
+    "id": 3,
+    "date": "2023-01-14",
     "name": "Teri",
     "age": 32,
     "email": "terike@temail.com"
