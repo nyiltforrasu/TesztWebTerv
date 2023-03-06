@@ -27,6 +27,35 @@
     <label>Az eredmény=</label>
     <label id="result"></label>
 </div>
-
+<div>
+    <form>
+        <input id="name" type="text" onkeyup="findStudent()">
+    </form>
+    <ol id="students"></ol>
+</div>
+<script type="application/javascript">
+    function findStudent(){
+        const findName = document.getElementById("name").value;
+        if(findName.length >= 2){
+            const xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState==4 && this.status ==200){
+                    const diakok = JSON.parse(xhttp.responseText);
+                    const ul = document.getElementById("students");
+                    ul.innerHTML="";
+                    diakok.forEach((diak)=>{
+                        const li = document.createElement("li");
+                        li.innerHTML = diak.vezetek + " " + diak.kereszt;
+                        ul.append(li);
+                    })
+                }
+            }
+            const params = new URLSearchParams({"name": findName});
+            const url = "../diak.php" + "?" + params.toString();
+            xhttp.open("GET", url);
+            xhttp.send();
+        }
+    }
+</script>
 </body>
 </html>
