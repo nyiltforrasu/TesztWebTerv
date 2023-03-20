@@ -6,15 +6,72 @@
 <!--    <script>-->
 <!--        import {trySave} from "../js/registration";-->
 <!--    </script>-->
-    <script src="../js/registration.js" type="module"></script>
+<!--    <script src="../js/registration.js" type="module"></script>-->
 </head>
 <body>
-    <label for="name">Név</label>
-    <input type="text" id="name">
-    <label for="email">E-mail</label>
-    <input type="email" id="email">
-    <label for="age">Kor</label>
-    <input type="number" id="age" placeholder="Hány éves vagy?">
-    <button onclick="{trySave()}">Mentés</button>
+    <div>
+        <label for="first_name">Név</label>
+        <input required type="text" id="first_name">
+        <label for="last_name">Név</label>
+        <input required type="text" id="last_name">
+        <label for="email">E-mail</label>
+        <input required type="email" id="email">
+        <label for="age">Kor</label>
+        <input required type="number" id="age" placeholder="Hány éves vagy?">
+        <button onclick="trySave()">Mentés</button>
+        <button id="removeBtn" hidden onclick="deleteUser()">Visszavonás</button>
+    </div>
+    <script>
+        let lastId = null;
+        function deleteUser(){
+
+            if(lastId!==null) {
+                const xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = () => {
+                    if (xhttp.readyState == 4 && xhttp.status == 200) {
+                        const result = JSON.parse(xhttp.responseText);
+                        if(result === "deleted"){
+                            alert("Sikeresen törölted a felhasználót");
+                        }else{
+                            alert("HIBA a torles soran");
+                        }
+                    }
+                }
+                const params = new URLSearchParams({deleteID: lastId})
+                xhttp.open("GET","./deleteUser.php?"+params.toString());
+                xhttp.send();
+            }
+            document.getElementById("removeBtn").setAttribute("hidden", true);
+        }
+
+        function trySave(){
+            const knev = document.getElementById('last_name').value;
+            const vnev = document.getElementById('first_name').value;
+            const email = document.getElementById('email').value;
+            const age = document.getElementById('age').value;
+            if(knev && vnev && email && age){
+                const xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = () => {
+                    if (xhttp.readyState == 4 && xhttp.status == 200){
+                        const result = JSON.parse(xhttp.responseText);
+                        lastId = parseInt(result);
+                        console.log(result);
+                        alert("elmentettuk a felhasznalot!");
+                        document.getElementById("removeBtn").removeAttribute("hidden");
+                    }
+                }
+                const params = new URLSearchParams({
+                    "lname": vnev,
+                    "fname": knev,
+                    "email": email,
+                    "age": age
+                });
+                xhttp.open("GET", "./saveUser.php" + "?" + params.toString());
+                xhttp.send();
+            } else {
+                alert("Minden mezőt tölts ki!")
+            }
+        }
+    </script>
 </body>
 </html>
